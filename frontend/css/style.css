@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap");
+html {
+  font-family: "Quicksand", sans-serif;
+}
+
+.navbar {
+  border-bottom: 1px solid;
+  display: flex;
+}
+.navbar h1 {
+  background: -webkit-radial-gradient(left top, #8454ea, #eaa955);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 7;
+}
+.navbar ul {
+  font-size: 18px;
+  margin-left: 70%;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+}
+.navbar ul li {
+  margin-left: 3vh;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 15%;
+}
+.products .product {
+  border: 2px solid #8454ea;
+  border-radius: 3%;
+  margin: 4%;
+  padding: 1%;
+  flex: 0 0 33%;
+}
+.products .product_img {
+  width: 60%;
+}
+.products .product_price {
+  margin-bottom: 2%;
+}
+.products .product_see, .products .product_add-cart {
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
+}
+.products .product_see {
+  background-color: #8454ea;
+  margin-right: 5px;
+}
+.products .product_add-cart {
+  background-color: #eaa955;
+}
+
+#spinner {
+  height: 100vh;
+  position: relative;
+}
+#spinner::before {
+  border: solid 5px black;
+  border-bottom-color: white;
+  border-radius: 50%;
+  content: "";
+  height: 40px;
+  left: 50%;
+  position: absolute;
+  top: 40%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 40px;
+  animation: 2s linear infinite spinner;
+}
+#spinner::after {
+  content: "Nous cherchons les produits...";
+  position: absolute;
+  top: 47%;
+  left: 42.5%;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
