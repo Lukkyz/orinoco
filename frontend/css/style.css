@@ -1,14 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap");
-html {
+html, body {
   font-family: "Quicksand", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar {
   border-bottom: 1px solid;
+  color: white;
+  background: #8454ea;
   display: flex;
 }
 .navbar h1 {
-  background: -webkit-radial-gradient(left top, #8454ea, #eaa955);
+  background: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 7;
@@ -24,13 +28,47 @@ html {
   margin-left: 3vh;
 }
 
+.cart_qty {
+  background-color: #eaa955;
+  color: white;
+  margin: 5px;
+  border-radius: 10%;
+  padding: 5px 10px 5px 10px;
+}
+
+.cart_body {
+  display: none;
+  opacity: 0;
+}
+.cart_body--active {
+  animation: 0.5s cart;
+  transition: opacity 3s ease-out;
+  position: absolute;
+  border: 2px solid black;
+  width: 30%;
+  right: 5%;
+  margin-top: 2%;
+  background-color: white;
+  opacity: 1;
+  display: block;
+}
+.cart_body--active table {
+  color: white;
+  background-color: #8454ea;
+  width: 100%;
+}
+
 .products {
+  background: #fff8f1;
   display: flex;
   flex-wrap: wrap;
-  margin-left: 15%;
+  padding-left: 15%;
 }
 .products .product {
-  border: 2px solid #8454ea;
+  color: white;
+  transition: 5s linear all;
+  background: -webkit-radial-gradient(left top, #eaa955, #8454ea);
+  border: 2px solid #eaa955;
   border-radius: 3%;
   margin: 4%;
   padding: 1%;
@@ -43,9 +81,11 @@ html {
   margin-bottom: 2%;
 }
 .products .product_see, .products .product_add-cart {
+  border: none;
   color: white;
   border-radius: 8px;
   padding: 5px;
+  font-size: 16px;
 }
 .products .product_see {
   background-color: #8454ea;
@@ -55,6 +95,14 @@ html {
   background-color: #eaa955;
 }
 
+@keyframes cart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 #spinner {
   height: 100vh;
   position: relative;
