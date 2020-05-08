@@ -121,6 +121,13 @@ select {
 	}
 }
 
+.input_error {
+	border: 2px solid red;
+}
+
+.input_valid {
+	border: 2px solid green;
+}
 
 .product {
 		color: white;

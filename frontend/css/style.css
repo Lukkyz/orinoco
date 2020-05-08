@@ -115,6 +115,14 @@ select {
   margin-bottom: 2%;
 }
 
+.input_error {
+  border: 2px solid red;
+}
+
+.input_valid {
+  border: 2px solid green;
+}
+
 .product {
   color: white;
   transition: 5s linear all;

@@ -68,6 +68,46 @@ function createCart() {
 	manageForm()
 }
 
+var reg = {
+	fName: /^[A-Za-zéèëäâï]{2,}$/,
+	lName:	/^[A-Za-zéèëäâï]{2,}$/,
+	address: /[0-9]{1,3}\s[\w\s]{1,}/,
+	city: /^[A-Za-zéèëäâï]{2,}$/,
+	mail: /^\w{3,}@\w{3,}\.\w{2,3}$/
+}
+
+var valid = {
+	fName: false,
+	lName: false,
+	address: false,
+	city: false,
+	mail: false
+}
+
+function isValid(element, regex) {
+	var allValid = false;
+	element.addEventListener("focus", (e) => {
+		element.addEventListener("input", (e) => {
+			if (regex.test(e.target.value)) {
+				element.className = "input_valid"	
+				valid[element.name] = true
+			} else {
+				element.className = "input_error"
+				valid[element.name] = false
+			}
+			allValid = Object.values(valid).reduce((total, currentValue) => {
+				return total && currentValue
+			})
+			var submit = document.querySelector(".order_submit")
+			if (allValid) { 
+				submit.disabled = false;
+			} else {
+				submit.disabled = true;
+			}
+		})
+	})	
+}
+
 function manageForm() {
 	if (!document.querySelector(".order")) {
 		var form = document.createElement("form")
@@ -76,14 +116,14 @@ function manageForm() {
 		labFName.textContent = "Prénom :"
 		labFName.for = "fname"
 		var inpFName = document.createElement("input")
-		inpFName.name = "fname"
+		inpFName.name = "fName"
 		var labLName = document.createElement("label")
 		labLName.textContent = "Nom :"
-		labLName.for = "lname"
+		labLName.for = "lName"
 		var inpLName = document.createElement("input")
-		inpLName.name = "lname"
+		inpLName.name = "lName"
 		var labAddress = document.createElement("label")
-		labAddress.textContent = "Asresse :"
+		labAddress.textContent = "Adresse :"
 		labAddress.for = "address"
 		var inpAddress = document.createElement("input")
 		inpAddress.name = "address"
@@ -97,10 +137,22 @@ function manageForm() {
 		labMail.for = "mail"
 		var inpMail = document.createElement("input")
 		inpMail.name = "mail"
+		var submit = document.createElement("input");
+		submit.type = "submit"
+		submit.className = "order_submit"
+		submit.disabled = true;
+		submit.addEventListener("click", () => {
+			console.log("pk")
+		})
 		var orderSect = document.createElement("section");
 		orderSect.className = "order"
 		var orderTitle = document.createElement("h2")
 		orderTitle.textContent = "Finaliser votre commande"
+		isValid(inpFName, reg.fName);
+		isValid(inpLName, reg.lName);
+		isValid(inpAddress, reg.address);
+		isValid(inpCity, reg.city);
+		isValid(inpMail, reg.mail);
 		form.appendChild(labFName)
 		form.appendChild(inpFName)
 		form.appendChild(labLName)
@@ -111,6 +163,7 @@ function manageForm() {
 		form.appendChild(inpCity)
 		form.appendChild(labMail)
 		form.appendChild(inpMail)
+		form.appendChild(submit)
 		orderSect.appendChild(orderTitle)
 		orderSect.appendChild(form)
 		document.querySelector("body").appendChild(orderSect)
@@ -120,7 +173,5 @@ function manageForm() {
 		body.removeChild(document.querySelector(".order"))
 	}
 }
-
-
 
 createCart()
