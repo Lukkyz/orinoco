@@ -1,8 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap");
+a {
+  text-decoration: none;
+  color: white;
+}
+
 html, body {
   font-family: "Quicksand", sans-serif;
   margin: 0;
   padding: 0;
+}
+
+select {
+  display: block;
+  margin-bottom: 1vh;
 }
 
 .navbar {
@@ -57,6 +67,19 @@ html, body {
   background-color: #8454ea;
   width: 100%;
 }
+.cart_body .btn_incr, .cart_body .btn_decr {
+  border: none;
+  border-radius: 50%;
+  color: white;
+}
+.cart_body .btn_incr {
+  background-color: #4d91ff;
+  font-size: 18px;
+}
+.cart_body .btn_decr {
+  background: #fa484e;
+  font-size: 20px;
+}
 
 .products {
   background: #fff8f1;
@@ -64,7 +87,8 @@ html, body {
   flex-wrap: wrap;
   padding-left: 15%;
 }
-.products .product {
+
+.product {
   color: white;
   transition: 5s linear all;
   background: -webkit-radial-gradient(left top, #eaa955, #8454ea);
@@ -74,25 +98,34 @@ html, body {
   padding: 1%;
   flex: 0 0 33%;
 }
-.products .product_img {
+.product_img {
+  display: block;
   width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
-.products .product_price {
+.product_price {
   margin-bottom: 2%;
 }
-.products .product_see, .products .product_add-cart {
+.product_see, .product_add-cart {
   border: none;
   color: white;
   border-radius: 8px;
   padding: 5px;
   font-size: 16px;
 }
-.products .product_see {
+.product_see {
   background-color: #8454ea;
   margin-right: 5px;
 }
-.products .product_add-cart {
+.product_add-cart {
   background-color: #eaa955;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes cart {

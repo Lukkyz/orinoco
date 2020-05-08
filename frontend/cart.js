@@ -1,23 +1,74 @@
-document.querySelector(".cart").addEventListener('mouseover', () => {
-	if (Object.keys(localStorage).length > 0){
-		document.querySelector(".cart_body").classList.add("cart_body--active")
-	}
-})
-
-document.querySelector(".cart_body").addEventListener('mouseleave', () => {
-	document.querySelector(".cart_body").classList.remove("cart_body--active")
-})
-
 // Return true if product is in cart
 function isInCart(id) {
 	var cart = JSON.parse(localStorage.getItem("cart"));
 	return cart.some(product => product._id == id)
 }
 
-function manageCart(element) {
+function addToCart(product) {
+	product.quantity = 1;	
+	if (!localStorage.getItem("cart")) {
+		var cart = [];
+			cart.push(product);
+			localStorage.setItem("cart", JSON.stringify(cart))
+	} else {
+		var cart = JSON.parse(localStorage.getItem("cart"))
+		if (isInCart(product._id)) {
+			cart.map(elem => {
+				if (elem._id == product._id) {
+					elem.quantity += 1
+				}
+			})
+		} else {
+			cart.push(product);
+		}
+		localStorage.setItem("cart", JSON.stringify(cart))
+	}
+	manageCart()
+}
+
+function removeFromCart(product) {
+	var cart = JSON.parse(localStorage.getItem("cart"))
+	cart = cart.filter(elem => {
+		return elem._id !== product._id
+	})		
+	console.log(cart)
+	if (cart.length > 0) {
+		localStorage.setItem("cart", JSON.stringify(cart))
+	} else {
+		localStorage.removeItem("cart")
+	}
+	manageCart()
+}
+
+function reduceQuantity(product) {
+	var cart = JSON.parse(localStorage.getItem("cart"))
+	cart.map(elem => {
+		if (elem._id == product._id) {
+			elem.quantity -= 1;
+			if (elem.quantity == 0) {
+				removeFromCart(product)
+			} else {
+				localStorage.setItem("cart", JSON.stringify(cart))
+				manageCart()
+			}
+		}
+	})
+}
+
+function manageCart() {
+	document.querySelector(".cart").addEventListener('mouseover', () => {
+	if (localStorage.getItem("cart")){
+		document.querySelector(".cart_body").classList.add("cart_body--active")
+		}
+	})
+
+	document.querySelector(".cart_body").addEventListener('mouseleave', () => {
+		document.querySelector(".cart_body").classList.remove("cart_body--active")
+	})
 	try {
-		var cartBody = document.querySelector(element);
+		var cartBody = document.querySelector(".cart_body");
 		cartBody.innerHTML = "";
+		document.querySelector(".cart_qty").textContent = "0"
 		var entries = document.createElement("table");	
 		var name = document.createElement("th");
 		name.textContent = "Nom";
@@ -48,7 +99,7 @@ function manageCart(element) {
 		var totalPrice = document.createElement("span");
 		totalPrice.textContent = "Prix Total : " + total
 		entries.appendChild(totalPrice)
-		console.log(document.querySelector(element));
-		document.querySelector(element).appendChild(entries)		
-	} catch {}
+		document.querySelector(".cart_body").appendChild(entries)		
+	} catch {
+	}
 }

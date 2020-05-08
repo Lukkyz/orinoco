@@ -1,36 +1,10 @@
-const API_URL = "http://localhost:3000/api/cameras"
-
-async function getProducts() {
-	var req = await fetch(API_URL);
-	var products = await req.json();
-	return products;
-}
-
-manageCart(".cart_body")
+manageCart()
+window.addEventListener("pageshow", () => {
+	manageCart();
+})
 
 var body = document.querySelector("body");
 var loadSpin = document.querySelector("#spinner");
-
-function addToCart(product) {
-	if (!localStorage.getItem("cart")) {
-		var cart = [];
-			cart.push(product);
-			localStorage.setItem("cart", JSON.stringify(cart))
-	} else {
-		var cart = JSON.parse(localStorage.getItem("cart"))
-		if (isInCart(product._id)) {
-			cart.map(elem => {
-				if (elem._id == product._id) {
-					elem.quantity += 1
-				}
-			})
-		} else {
-			cart.push(product);
-		}
-		localStorage.setItem("cart", JSON.stringify(cart))
-	}
-	manageCart('.cart_body')
-}
 
 function createProduct(product) {
 	var productNode = document.createElement("article");
@@ -54,7 +28,8 @@ function createProduct(product) {
 		var price = document.createElement("div")
 		price.textContent = product.price + "€";
 		price.className = "product_price";
-		var linkSee = document.createElement("button");
+		var linkSee = document.createElement("a");
+		linkSee.href = "product.html?id=" + product._id;
 		linkSee.textContent = "Voir";
 		linkSee.className = "product_see";
 		var btnCart = document.createElement("button")
@@ -74,11 +49,10 @@ function createProduct(product) {
 		return productNode
 }
 
-getProducts().then(products => {
+getAllProducts().then(products => {
 	var productsNode = document.createElement("main");
 	productsNode.className = "products";
 	products.forEach(product => {
-		product.quantity = 1;	
 		productsNode.appendChild(createProduct(product))	
 	})	
 	body.removeChild(loadSpin);
