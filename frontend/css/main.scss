@@ -109,6 +109,19 @@ select {
 	}
 }
 
+.order {
+	width: 50%;
+	margin: auto;
+	&_form {
+		display: flex;
+		flex-direction: column;
+		& input {
+			margin-bottom: 2%; 
+		}
+	}
+}
+
+
 .product {
 		color: white;
 		transition: 5s linear all;

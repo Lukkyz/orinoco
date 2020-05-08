@@ -103,6 +103,18 @@ select {
   background: #fa484e;
 }
 
+.order {
+  width: 50%;
+  margin: auto;
+}
+.order_form {
+  display: flex;
+  flex-direction: column;
+}
+.order_form input {
+  margin-bottom: 2%;
+}
+
 .product {
   color: white;
   transition: 5s linear all;
