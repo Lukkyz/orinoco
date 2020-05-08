@@ -4,7 +4,7 @@ function isInCart(id) {
 	return cart.some(product => product._id == id)
 }
 
-function addToCart(product) {
+function addToCart(product, callback) {
 	product.quantity = 1;	
 	if (!localStorage.getItem("cart")) {
 		var cart = [];
@@ -23,10 +23,10 @@ function addToCart(product) {
 		}
 		localStorage.setItem("cart", JSON.stringify(cart))
 	}
-	manageCart()
+	callback()
 }
 
-function removeFromCart(product) {
+function removeFromCart(product, callback) {
 	var cart = JSON.parse(localStorage.getItem("cart"))
 	cart = cart.filter(elem => {
 		return elem._id !== product._id
@@ -37,19 +37,19 @@ function removeFromCart(product) {
 	} else {
 		localStorage.removeItem("cart")
 	}
-	manageCart()
+	callback()
 }
 
-function reduceQuantity(product) {
+function reduceQuantity(product, callback) {
 	var cart = JSON.parse(localStorage.getItem("cart"))
 	cart.map(elem => {
 		if (elem._id == product._id) {
 			elem.quantity -= 1;
 			if (elem.quantity == 0) {
-				removeFromCart(product)
+				removeFromCart(product, callback)
 			} else {
 				localStorage.setItem("cart", JSON.stringify(cart))
-				manageCart()
+				callback()
 			}
 		}
 	})

@@ -36,7 +36,7 @@ function createProduct(product) {
 		btnCart.textContent = "Ajouter au panier";
 		btnCart.className = "product_add-cart";
 		btnCart.addEventListener('click', () => {
-			addToCart(product)	
+			addToCart(product, manageCart)	
 		})
 		btnCart.id = product._id;
 		productNode.appendChild(title);

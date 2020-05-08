@@ -33,7 +33,7 @@ getOneProduct(id).then(product => {
 	btnCart.className = "product_add-cart"
 	btnCart.textContent = "Ajouter au panier"
 	btnCart.addEventListener("click", () => {
-		addToCart(product)
+		addToCart(product, manageCart)
 	})
 	main.appendChild(title);
 	main.appendChild(img);
