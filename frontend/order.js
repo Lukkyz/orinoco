@@ -64,21 +64,25 @@ function createCart() {
 			totalPrice.textContent = total
 			table.appendChild(totalPrice)
 			main.appendChild(table)
+	} else {
+		var noCart = document.createElement("h2");
+		noCart.textContent = "Votre panier est vide."
+		main.appendChild(noCart);	
 	}
 	manageForm()
 }
 
 var reg = {
-	fName: /^[A-Za-zéèëäâï]{2,}$/,
-	lName:	/^[A-Za-zéèëäâï]{2,}$/,
+	firstName: /^[A-Za-zéèëäâï]{2,}$/,
+	lastName:	/^[A-Za-zéèëäâï]{2,}$/,
 	address: /[0-9]{1,3}\s[\w\s]{1,}/,
 	city: /^[A-Za-zéèëäâï]{2,}$/,
 	mail: /^\w{3,}@\w{3,}\.\w{2,3}$/
 }
 
 var valid = {
-	fName: false,
-	lName: false,
+	firstName: false,
+	lastName: false,
 	address: false,
 	city: false,
 	mail: false
@@ -111,17 +115,18 @@ function isValid(element, regex) {
 function manageForm() {
 	if (!document.querySelector(".order")) {
 		var form = document.createElement("form")
+		form.action = "confirmation.html"
 		form.className = "order_form"
 		var labFName = document.createElement("label")
 		labFName.textContent = "Prénom :"
 		labFName.for = "fname"
 		var inpFName = document.createElement("input")
-		inpFName.name = "fName"
+		inpFName.name = "firstName"
 		var labLName = document.createElement("label")
 		labLName.textContent = "Nom :"
-		labLName.for = "lName"
+		labLName.for = "lastName"
 		var inpLName = document.createElement("input")
-		inpLName.name = "lName"
+		inpLName.name = "lastName"
 		var labAddress = document.createElement("label")
 		labAddress.textContent = "Adresse :"
 		labAddress.for = "address"
@@ -138,18 +143,49 @@ function manageForm() {
 		var inpMail = document.createElement("input")
 		inpMail.name = "mail"
 		var submit = document.createElement("input");
-		submit.type = "submit"
-		submit.className = "order_submit"
+		submit.type = "button"
+		submit.className = "order_submit" 
 		submit.disabled = true;
 		submit.addEventListener("click", () => {
-			console.log("pk")
+			var fName = document.querySelector('input[name="firstName"]').value;
+			var lName = document.querySelector('input[name=lastName]').value;
+			var address = document.querySelector('input[name=address]').value;
+			var city = document.querySelector("input[name=city]").value;
+			var mail = document.querySelector("input[name=mail]").value;
+			var infos = {
+				firstName: fName,
+				lastName: lName,
+				address: address,
+				city: city,
+				email: mail
+			}
+			var products = JSON.parse(localStorage.getItem("cart"))
+			var productsId = [] 
+			products.forEach(product => {
+				productsId.push(product._id)
+			})	
+			var reqObj = {
+				contact: infos,
+				products: productsId
+			}
+			var allValid = Object.values(valid).reduce((total, current) => {
+				return total && current
+			})
+			if (allValid) {
+				sendOrder(reqObj).then(res => {
+					localStorage.setItem("confirmation_order", JSON.stringify(res)) 
+					localStorage.removeItem("cart");
+					window.location.href = "confirmation.html"
+				})
+			}
+
 		})
 		var orderSect = document.createElement("section");
 		orderSect.className = "order"
 		var orderTitle = document.createElement("h2")
 		orderTitle.textContent = "Finaliser votre commande"
-		isValid(inpFName, reg.fName);
-		isValid(inpLName, reg.lName);
+		isValid(inpFName, reg.firstName);
+		isValid(inpLName, reg.lastName);
 		isValid(inpAddress, reg.address);
 		isValid(inpCity, reg.city);
 		isValid(inpMail, reg.mail);
@@ -175,3 +211,6 @@ function manageForm() {
 }
 
 createCart()
+window.addEventListener("pageshow", () => {
+	createCart();
+})

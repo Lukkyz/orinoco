@@ -115,12 +115,35 @@ select {
   margin-bottom: 2%;
 }
 
+.product_order {
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-around;
+}
+.product_order img {
+  width: 20%;
+}
+.product_order h4 {
+  margin: 0;
+}
+
 .input_error {
   border: 2px solid red;
 }
 
 .input_valid {
   border: 2px solid green;
+}
+
+.confirmation_order {
+  margin-top: 2%;
+  padding: 2%;
+  color: white;
+  border-radius: 5%;
+  background-color: #8454ea;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product {
