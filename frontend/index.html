@@ -6,18 +6,28 @@
 	</head>
 
 	<body>
-		<header class="navbar">
-			<h1>Orinoco</h1>
-			<ul>
-				<li><a href="index.html">Accueil</a></li>
-				<li class="cart"><a href="order.html">Panier </a><span class="cart_qty">0</span></li>
-				<div class="cart_body">
-				</div>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		  <a class="navbar-brand" href="#">Orinoco</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+		  data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+		  aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+			  <li class="nav-item active">
+				<a class="nav-link" href="index.html">Accueil <span class="sr-only">(current)</span></a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="order.html">Panier</a>
+			  </li>
 			</ul>
-		</header>
-		<div id="spinner"></div>
-		<script src="API.js"></script>
-		<script src="cart.js"></script>
+		  </div>
+		</nav>		
+		<!-- Class -->
+		<script src="class/product.js"></script>
+		<script src="class/API.js"></script>
+		<!-- -->
 		<script src="index.js"></script>
 	</body>
 </html>
