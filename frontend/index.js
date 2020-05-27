@@ -5,7 +5,7 @@ Back.getAllProducts().then(products => {
 	productsNode.className = "products container-fluid ";
 	products.forEach(data => {
 		let product = new Product(data)
-		productsNode.innerHTML += product.createProductPreview()	
+		productsNode.appendChild(product.createProductPreview())	
 	})	
 	body.appendChild(productsNode);
 });

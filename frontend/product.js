@@ -9,7 +9,7 @@ main.className = "product"
 
 Back.getOneProduct(id).then(data => {
 	let product = new Product(data);	
-	main.innerHTML += product.createProduct();
+	main.appendChild(product.createProduct());
 	body.appendChild(main)
 })
 .catch((e) => {

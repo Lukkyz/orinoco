@@ -1,77 +1,3 @@
-function createCart() {
-	var main = document.querySelector(".cart_page")
-	main.innerHTML = "";
-	if (localStorage.getItem("cart")) { 
-		var table = document.createElement("table");
-		table.className = ".cart_table"
-		var tr = document.createElement("tr");
-		var thImg = document.createElement("th");
-		thImg.textContent = "Photo"	
-		var thName = document.createElement("th");
-		thName.textContent = "Nom"
-		var thPrice = document.createElement("th");
-		thPrice.textContent = "Prix/u"
-		var thQty = document.createElement("th");
-		thQty.textContent = "Quantité"
-		var thTotal = document.createElement("th")
-		thTotal.textContent = "Prix Total"
-		tr.appendChild(thImg)
-		tr.appendChild(thName)
-		tr.appendChild(thPrice)
-		tr.appendChild(thQty)
-		tr.appendChild(thTotal)
-		table.appendChild(tr)
-		var cart = JSON.parse(localStorage.getItem("cart"))
-		var total = 0;
-		cart.forEach(product => {
-			var tr = document.createElement("tr")
-			var tdImg = document.createElement("td")
-			var img = document.createElement("img")
-			img.src = product.imageUrl;
-			img.className = "cart_img"
-			tdImg.appendChild(img)
-			var tdName = document.createElement("td")
-			tdName.textContent = product.name 
-			var tdPrice = document.createElement("td")
-			tdPrice.textContent = product.price 
-			var tdQty = document.createElement("td")
-			tdQty.textContent = product.quantity 
-			var incrBtn = document.createElement("button")
-			incrBtn.textContent = "+";
-			incrBtn.className = "btn_incr";
-			var decrBtn = document.createElement("button")
-			decrBtn.textContent = "-";
-			decrBtn.className = "btn_decr";
-			incrBtn.addEventListener('click', () => {
-				addToCart(product, createCart)
-			})	
-			decrBtn.addEventListener('click', () => {
-				reduceQuantity(product, createCart)
-			})
-			tdQty.appendChild(incrBtn)
-			tdQty.appendChild(decrBtn)
-			var tdTotal = document.createElement("td")
-			tdTotal.textContent = product.price * product.quantity 
-			total += product.price * product.quantity
-			tr.appendChild(tdImg);
-			tr.appendChild(tdName);
-			tr.appendChild(tdPrice);
-			tr.appendChild(tdQty);
-			tr.appendChild(tdTotal);
-			table.appendChild(tr)
-		})
-			var totalPrice = document.createElement("tr")
-			totalPrice.textContent = total
-			table.appendChild(totalPrice)
-			main.appendChild(table)
-	} else {
-		var noCart = document.createElement("h2");
-		noCart.textContent = "Votre panier est vide."
-		main.appendChild(noCart);	
-	}
-	manageForm()
-}
-
 var reg = {
 	firstName: /^[A-Za-zéèëäâï]{2,}$/,
 	lastName:	/^[A-Za-zéèëäâï]{2,}$/,
@@ -112,93 +38,93 @@ function isValid(element, regex) {
 	})	
 }
 
-function manageForm() {
-	if (!document.querySelector(".order")) {
-		var form = document.createElement("form")
+function manageform() {
+	if (!document.queryselector(".order")) {
+		var form = document.createelement("form")
 		form.action = "confirmation.html"
-		form.className = "order_form"
-		var labFName = document.createElement("label")
-		labFName.textContent = "Prénom :"
-		labFName.for = "fname"
-		var inpFName = document.createElement("input")
-		inpFName.name = "firstName"
-		var labLName = document.createElement("label")
-		labLName.textContent = "Nom :"
-		labLName.for = "lastName"
-		var inpLName = document.createElement("input")
-		inpLName.name = "lastName"
-		var labAddress = document.createElement("label")
-		labAddress.textContent = "Adresse :"
-		labAddress.for = "address"
-		var inpAddress = document.createElement("input")
-		inpAddress.name = "address"
-		var labCity = document.createElement("label")
-		labCity.textContent = "Ville :"
-		labCity.for = "city"
-		var inpCity = document.createElement("input")
-		inpCity.name = "city"
-		var labMail = document.createElement("label")
-		labMail.textContent = "Email :"
-		labMail.for = "mail"
-		var inpMail = document.createElement("input")
-		inpMail.name = "mail"
-		var submit = document.createElement("input");
+		form.classname = "order_form"
+		var labfname = document.createelement("label")
+		labfname.textcontent = "prénom :"
+		labfname.for = "fname"
+		var inpfname = document.createelement("input")
+		inpfname.name = "firstname"
+		var lablname = document.createelement("label")
+		lablname.textcontent = "nom :"
+		lablname.for = "lastname"
+		var inplname = document.createelement("input")
+		inplname.name = "lastname"
+		var labaddress = document.createelement("label")
+		labaddress.textcontent = "adresse :"
+		labaddress.for = "address"
+		var inpaddress = document.createelement("input")
+		inpaddress.name = "address"
+		var labcity = document.createelement("label")
+		labcity.textcontent = "ville :"
+		labcity.for = "city"
+		var inpcity = document.createelement("input")
+		inpcity.name = "city"
+		var labmail = document.createelement("label")
+		labmail.textcontent = "email :"
+		labmail.for = "mail"
+		var inpmail = document.createelement("input")
+		inpmail.name = "mail"
+		var submit = document.createelement("input");
 		submit.type = "button"
-		submit.className = "order_submit" 
+		submit.classname = "order_submit" 
 		submit.disabled = true;
-		submit.addEventListener("click", () => {
-			var fName = document.querySelector('input[name="firstName"]').value;
-			var lName = document.querySelector('input[name=lastName]').value;
-			var address = document.querySelector('input[name=address]').value;
-			var city = document.querySelector("input[name=city]").value;
-			var mail = document.querySelector("input[name=mail]").value;
+		submit.addeventlistener("click", () => {
+			var fname = document.queryselector('input[name="firstname"]').value;
+			var lname = document.queryselector('input[name=lastname]').value;
+			var address = document.queryselector('input[name=address]').value;
+			var city = document.queryselector("input[name=city]").value;
+			var mail = document.queryselector("input[name=mail]").value;
 			var infos = {
-				firstName: fName,
-				lastName: lName,
+				firstname: fname,
+				lastname: lname,
 				address: address,
 				city: city,
 				email: mail
 			}
-			var products = JSON.parse(localStorage.getItem("cart"))
-			var productsId = [] 
-			products.forEach(product => {
-				productsId.push(product._id)
+			var products = json.parse(localstorage.getitem("cart"))
+			var productsid = [] 
+			products.foreach(product => {
+				productsid.push(product._id)
 			})	
-			var reqObj = {
+			var reqobj = {
 				contact: infos,
-				products: productsId
+				products: productsid
 			}
-			var allValid = Object.values(valid).reduce((total, current) => {
+			var allvalid = object.values(valid).reduce((total, current) => {
 				return total && current
 			})
-			if (allValid) {
-				sendOrder(reqObj).then(res => {
-					localStorage.setItem("confirmation_order", JSON.stringify(res)) 
-					localStorage.removeItem("cart");
+			if (allvalid) {
+				sendorder(reqobj).then(res => {
+					localstorage.setitem("confirmation_order", json.stringify(res)) 
+					localstorage.removeitem("cart");
 					window.location.href = "confirmation.html"
 				})
 			}
 
 		})
-		var orderSect = document.createElement("section");
-		orderSect.className = "order"
-		var orderTitle = document.createElement("h2")
-		orderTitle.textContent = "Finaliser votre commande"
-		isValid(inpFName, reg.firstName);
-		isValid(inpLName, reg.lastName);
-		isValid(inpAddress, reg.address);
-		isValid(inpCity, reg.city);
-		isValid(inpMail, reg.mail);
-		form.appendChild(labFName)
-		form.appendChild(inpFName)
-		form.appendChild(labLName)
-		form.appendChild(inpLName)
-		form.appendChild(labAddress)
-		form.appendChild(inpAddress)
-		form.appendChild(labCity)
-		form.appendChild(inpCity)
-		form.appendChild(labMail)
-		form.appendChild(inpMail)
+		var ordersect = document.createelement("section");
+		ordersect.classname = "order"
+		var ordertitle = document.createelement("h2")
+		ordertitle.textcontent = "finaliser votre commande"
+		isvalid(inpfname, reg.firstname);
+		isvalid(inplname, reg.lastname);
+		isvalid(inpaddress, reg.address);
+		isvalid(inpcity, reg.city);
+		isvalid(inpmail, reg.mail);
+		form.appendchild(labfname)
+		form.appendchild(inpfname)
+		form.appendchild(lablname)
+		form.appendchild(inplname)
+		form.appendchild(labaddress)
+		form.appendchild(inpaddress)
+		form.appendchild(labcity)
+		form.appendchild(inpcity)
+		form.appendchild(labmail)
+		form.appendchild(inpmail)
 		form.appendChild(submit)
 		orderSect.appendChild(orderTitle)
 		orderSect.appendChild(form)
@@ -210,7 +136,7 @@ function manageForm() {
 	}
 }
 
-createCart()
+Cart.manageCart()
 window.addEventListener("pageshow", () => {
-	createCart();
+	Cart.manageCart();
 })

@@ -1,105 +1,104 @@
-// Return true if product is in cart
-function isInCart(id) {
-	var cart = JSON.parse(localStorage.getItem("cart"));
-	return cart.some(product => product._id == id)
-}
-
-function addToCart(product, callback) {
-	product.quantity = 1;	
-	if (!localStorage.getItem("cart")) {
-		var cart = [];
-			cart.push(product);
-			localStorage.setItem("cart", JSON.stringify(cart))
-	} else {
-		var cart = JSON.parse(localStorage.getItem("cart"))
-		if (isInCart(product._id)) {
-			cart.map(elem => {
-				if (elem._id == product._id) {
-					elem.quantity += 1
-				}
-			})
-		} else {
-			cart.push(product);
-		}
-		localStorage.setItem("cart", JSON.stringify(cart))
+class Cart {
+	static isInCart(id) {
+		let cart = JSON.parse(localStorage.getItem("cart"));
+		return cart.some(product => product._id == id)
 	}
-	callback()
-}
 
-function removeFromCart(product, callback) {
-	var cart = JSON.parse(localStorage.getItem("cart"))
-	cart = cart.filter(elem => {
-		return elem._id !== product._id
-	})		
-	console.log(cart)
-	if (cart.length > 0) {
-		localStorage.setItem("cart", JSON.stringify(cart))
-	} else {
-		localStorage.removeItem("cart")
-	}
-	callback()
-}
-
-function reduceQuantity(product, callback) {
-	var cart = JSON.parse(localStorage.getItem("cart"))
-	cart.map(elem => {
-		if (elem._id == product._id) {
-			elem.quantity -= 1;
-			if (elem.quantity == 0) {
-				removeFromCart(product, callback)
-			} else {
+	static addToCart(product) {
+		product.quantity = 1;	
+		if (!localStorage.getItem("cart")) {
+			var cart = [];
+				cart.push(product);
 				localStorage.setItem("cart", JSON.stringify(cart))
-				callback()
+		} else {
+			var cart = JSON.parse(localStorage.getItem("cart"))
+			if (Cart.isInCart(product._id)) {
+				cart.map(elem => {
+					if (elem._id == product._id) {
+						elem.quantity += 1
+					}
+				})
+			} else {
+				cart.push(product);
 			}
+			localStorage.setItem("cart", JSON.stringify(cart))
 		}
-	})
-}
+		Cart.manageCart()
+	}
 
-function manageCart() {
-	document.querySelector(".cart").addEventListener('mouseover', () => {
-	if (localStorage.getItem("cart")){
-		document.querySelector(".cart_body").classList.add("cart_body--active")
+	static removeFromCart(product) {
+		var cart = JSON.parse(localStorage.getItem("cart"))
+		cart = cart.filter(elem => {
+			return elem._id !== product._id
+		})		
+		if (cart.length > 0) {
+			localStorage.setItem("cart", JSON.stringify(cart))
+		} else {
+			localStorage.removeItem("cart")
 		}
-	})
+		Cart.manageCart()
+	}
 
-	document.querySelector(".cart_body").addEventListener('mouseleave', () => {
-		document.querySelector(".cart_body").classList.remove("cart_body--active")
-	})
-	try {
-		var cartBody = document.querySelector(".cart_body");
-		cartBody.innerHTML = "";
-		document.querySelector(".cart_qty").textContent = "0"
-		var entries = document.createElement("table");	
-		var name = document.createElement("th");
-		name.textContent = "Nom";
-		var quantity = document.createElement("th")
-		quantity.textContent = "Quantité";
-		var price = document.createElement("th");
-		price.textContent = "Prix/u";
-		var total = 0;
-		entries.appendChild(name);
-		entries.appendChild(quantity);
-		entries.appendChild(price);
-		var cart = JSON.parse(localStorage.getItem("cart"));
-		document.querySelector(".cart_qty").textContent = cart.length
-		cart.forEach(product => {
-			var tr = document.createElement("tr");
-			var name = document.createElement("td");
-			name.textContent = product.name;
-			var qty = document.createElement("td");
-			qty.textContent = product.quantity;
-			var price = document.createElement("td");
-			price.textContent = product.price
-			total += product.price * product.quantity 
-			tr.appendChild(name);	
-			tr.appendChild(qty);	
-			tr.appendChild(price);	
-			entries.appendChild(tr);
+	static reduceQuantity(product) {
+		var cart = JSON.parse(localStorage.getItem("cart"))
+		cart.map(elem => {
+			if (elem._id == product._id) {
+				elem.quantity -= 1;
+				if (elem.quantity == 0) {
+					Cart.removeFromCart(product)
+				} else {
+					localStorage.setItem("cart", JSON.stringify(cart))
+				}
+			}
 		})
-		var totalPrice = document.createElement("span");
-		totalPrice.textContent = "Prix Total : " + total
-		entries.appendChild(totalPrice)
-		document.querySelector(".cart_body").appendChild(entries)		
-	} catch {
+		Cart.manageCart()
+	}
+
+	static manageCart() {
+	var main = document.querySelector(".cart_page")
+	main.innerHTML = "";
+	if (localStorage.getItem("cart")) { 
+		var table = document.createElement("table");
+		table.className = "table table-striped w-50 m-auto"
+		table.innerHTML = `
+			<thead>
+				<tr>
+					<th>Photo</th>
+					<th>Nom</th>
+					<th>Prix / U</th>
+					<th>Quantité</th>
+					<th>Prix Total</th>
+				</tr>
+			</thead>
+		`
+		let body = document.createElement("tbody");
+		let cart = JSON.parse(localStorage.getItem("cart"));
+		cart.forEach(product => {
+			let tr = document.createElement("tr")
+			tr.innerHTML = `
+				<td class="w-50"><img class="mr-0 card-img-top w-50" src="${product.imageUrl}"></td>
+				<td>${product.name}</td>
+				<td>${product.price / 100}</td>
+				<td>${product.quantity}<button class="btn btn-primary btn-add">+</button><button class="btn btn-danger btn-reduce">-</button></td>
+				<td>${product.price / 100 * product.quantity}</td>
+			`
+			let btnAdd = tr.querySelector(".btn-add")
+			btnAdd.addEventListener('click', () => {
+				Cart.addToCart(product)
+			})
+			let btnReduce = tr.querySelector('.btn-reduce')
+			btnReduce.addEventListener('click', () => {
+				Cart.reduceQuantity(product)
+			})
+			body.appendChild(tr)
+		})
+		table.appendChild(body)
+		main.appendChild(table)
+
+	} else {
+		var noCart = document.createElement("h2");
+		noCart.textContent = "Votre panier est vide."
+		main.appendChild(noCart);	
+	}
 	}
 }
