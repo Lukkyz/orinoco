@@ -32,7 +32,6 @@ class Product {
 		let div = document.createElement("div");
 		div.className = "card mb-3";
 		div.innerHTML = `
-		<div class="card mb-3">
 		  <img src="${this.imgUrl}" class="card-img-top w-50 m-auto" alt="...">
 		  <div class="card-body">
 			<h5 class="card-title">${this.name}</h5>
@@ -43,7 +42,6 @@ class Product {
 			</select>
 			<button class="btn btn-success add-cart">Ajouter au panier</button>
 		  </div>
-		</div>
 		`
 		let btnAdd = div.querySelector(".add-cart") 
 		btnAdd.addEventListener('click', () => {
@@ -59,5 +57,4 @@ class Product {
 				`
 		})
 		return html	
-	}
-}
+	}}
