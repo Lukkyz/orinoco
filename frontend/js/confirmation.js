@@ -1,10 +1,3 @@
-if (!localStorage.getItem("confirmation_order")) {
-  window.location.href = "index.html";
-}
-
-let order = JSON.parse(localStorage.getItem("confirmation_order"));
-let products = order.products;
-
 /**
  * Take an array of object whichs contains multiple same product and return quantity
  * @param {array} ex: [ttem1, item1, item2, item2]
@@ -30,9 +23,13 @@ function quantifyProducts(products) {
   return products;
 }
 
-let table = document.createElement("table");
-table.className = "table table-striped w-50 mx-auto mt-3";
-table.innerHTML = `
+try {
+  let order = JSON.parse(localStorage.getItem("confirmation_order"));
+  let products = order.products;
+
+  let table = document.createElement("table");
+  table.className = "table table-striped w-50 mx-auto mt-3";
+  table.innerHTML = `
 		<thead>
 			<tr>
 				<th>Photo</th>
@@ -44,11 +41,11 @@ table.innerHTML = `
 		</thead>
 `;
 
-let tbody = document.createElement("tbody");
-let totalPrice = 0;
-quantifyProducts(products).forEach((product) => {
-  let tr = document.createElement("tr");
-  tr.innerHTML = `
+  let tbody = document.createElement("tbody");
+  let totalPrice = 0;
+  quantifyProducts(products).forEach((product) => {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
 			<td class="w-50"><img class="mr-0 card-img-top w-50" src="${
         product.imageUrl
       }"></td>
@@ -57,21 +54,21 @@ quantifyProducts(products).forEach((product) => {
 			<td>${product.quantity}	
 			<td>${(product.price / 100) * product.quantity}</td>
 		`;
-  totalPrice += (product.price / 100) * product.quantity;
-  tbody.appendChild(tr);
-});
+    totalPrice += (product.price / 100) * product.quantity;
+    tbody.appendChild(tr);
+  });
 
-let total = document.createElement("tr");
-total.innerHTML = `
+  let total = document.createElement("tr");
+  total.innerHTML = `
 			<td class="w-50"></td>
 			<td></td>
 			<td></td>
 			<td></td>	
 			<td>${totalPrice} €</td>
 `;
-tbody.appendChild(total);
-let main = document.querySelector(".confirmation_order");
-main.innerHTML = `
+  tbody.appendChild(total);
+  let main = document.querySelector(".confirmation_order");
+  main.innerHTML = `
 	<h3>Récapitulaif de votre commande</h3>
 	<p>Numéro de commande : ${order.orderId}
 	<div class="mb-3">
@@ -83,7 +80,10 @@ main.innerHTML = `
 	</div>
 	<h4>Vos achats : </h4>
 `;
-main.className = "text-center";
-table.appendChild(tbody);
-main.appendChild(table);
-localStorage.removeItem("confirmation_order");
+  main.className = "text-center";
+  table.appendChild(tbody);
+  main.appendChild(table);
+  localStorage.removeItem("confirmation_order");
+} catch {
+  window.location.href = "index.html";
+}

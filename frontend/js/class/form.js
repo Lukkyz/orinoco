@@ -32,7 +32,6 @@ class Form {
   static isValid(element) {
     element.addEventListener("input", (e) => {
       Form.value[element.name] = element.value;
-      console.log(Form.value);
       if (Form.reg[element.name].test(e.target.value)) {
         element.classList = "form-control border border-success";
         Form.valid[element.name] = true;
@@ -80,7 +79,6 @@ class Form {
       btn.addEventListener("click", () => {
         if (Form.allValid()) {
           let cart = JSON.parse(localStorage.getItem("cart"));
-          console.log(cart);
           let productsId = [];
           cart.forEach((elem) => {
             for (let i = 0; i < elem.quantity; i++) {
