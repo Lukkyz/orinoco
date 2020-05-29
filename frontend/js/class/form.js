@@ -2,7 +2,7 @@ class Form {
   static reg = {
     firstName: /^[A-Za-zéèëäâï]{2,}$/,
     lastName: /^[A-Za-zéèëäâï]{2,}$/,
-    address: /[0-9]{1,3}\s[\w\s]{1,}/,
+    address: /[0-9]{1,3}\s[\w\s]{1,}\s[A-Za-zéèêëâä]/,
     city: /^[A-Za-zéèëäâï]{2,}$/,
     email: /^\w{3,}@\w{3,}\.\w{2,3}$/,
   };
