@@ -43,6 +43,7 @@ class Form {
       Form.allValid() ? (submit.disabled = false) : (submit.disabled = true);
     });
   }
+
   static manageForm() {
       let form = document.createElement("form");
       form.className = "order_form w-50 m-auto";
@@ -75,6 +76,13 @@ class Form {
       let city = form.querySelector("input[name='city']");
       let email = form.querySelector("input[name='email']");
       let btn = form.querySelector(".order_send");
+      
+      Form.isValid(firstName);
+      Form.isValid(lastName);
+      Form.isValid(address);
+      Form.isValid(city);
+      Form.isValid(email);
+
       btn.addEventListener("click", () => {
         if (Form.allValid()) {
           let cart = JSON.parse(localStorage.getItem("cart"));
@@ -88,7 +96,7 @@ class Form {
             contact: Form.value,
             products: productsId,
           };
-          Back.sendOrder(data).then((res) => {
+          API.sendOrder(data).then((res) => {
             let order = JSON.stringify(res);
             localStorage.setItem("confirmation_order", order);
             localStorage.removeItem("cart");
@@ -96,11 +104,7 @@ class Form {
           });
         }
       });
-      Form.isValid(firstName);
-      Form.isValid(lastName);
-      Form.isValid(address);
-      Form.isValid(city);
-      Form.isValid(email);
+
       let main = document.querySelector("main");
       main.appendChild(form);
   }
