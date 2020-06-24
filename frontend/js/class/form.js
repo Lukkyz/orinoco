@@ -44,7 +44,6 @@ class Form {
     });
   }
   static manageForm() {
-    if (localStorage.getItem("cart")) {
       let form = document.createElement("form");
       form.className = "order_form w-50 m-auto";
       form.innerHTML = `
@@ -104,6 +103,5 @@ class Form {
       Form.isValid(email);
       let main = document.querySelector("main");
       main.appendChild(form);
-    }
   }
 }
