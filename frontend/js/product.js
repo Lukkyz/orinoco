@@ -10,12 +10,12 @@ API.getOneProduct(id)
   .then((data) => {
     let product = new Product(data);
     main.appendChild(product.createProduct());
-    body.appendChild(main);
+    body.appendChild(main); 
     body.removeChild(spinner);
   })
   .catch((e) => {
     var container = document.createElement("section");
-    container.className = "error";
+    container.className = "error offset-md-4 col-md-6 mt-5";
     var gif = document.createElement("img");
     var title = document.createElement("h2");
     title.textContent = "Erreur 404 : Le produit n'existe pas !";
