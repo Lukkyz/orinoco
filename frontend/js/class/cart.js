@@ -13,7 +13,7 @@ class Cart {
     } else {
       var cart = JSON.parse(localStorage.getItem("cart"));
       if (Cart.isInCart(product._id)) {
-        cart.map((elem) => {
+        cart.forEach((elem) => {
           if (elem._id == product._id) {
             elem.quantity += 1;
           }
@@ -40,7 +40,7 @@ class Cart {
 
   static reduceQuantity(product, func) {
     let cart = JSON.parse(localStorage.getItem("cart"));
-    cart.map((elem) => {
+    cart.forEach((elem) => {
       if (elem._id == product._id) {
         elem.quantity -= 1;
         if (elem.quantity == 0) {

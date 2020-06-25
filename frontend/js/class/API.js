@@ -13,6 +13,9 @@ class API {
 		return product;
 	}
 
+	/**
+	 * @param {Object} {{Object} contact, {Array} productsId}
+	 **/
 	static async sendOrder(data) {
 		let req = await fetch(API.url + "order", {
 		method: 'POST', 
