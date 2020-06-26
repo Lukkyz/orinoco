@@ -98,7 +98,7 @@ class Form {
           };
           API.sendOrder(data).then((res) => {
             let order = JSON.stringify(res);
-            localStorage.setItem("confirmation_order", order);
+            sessionStorage.setItem("confirmation_order", order);
             localStorage.removeItem("cart");
             window.location.href = "confirmation.html";
           });

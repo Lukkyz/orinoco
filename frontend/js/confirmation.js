@@ -24,7 +24,7 @@ function quantifyProducts(products) {
 }
 
 try {
-  let order = JSON.parse(localStorage.getItem("confirmation_order"));
+  let order = JSON.parse(sessionStorage.getItem("confirmation_order"));
   let products = order.products;
 
   let table = document.createElement("table");
@@ -83,7 +83,6 @@ try {
   main.className = "text-center";
   table.appendChild(tbody);
   main.appendChild(table);
-  localStorage.removeItem("confirmation_order");
 } catch {
   window.location.href = "index.html";
 }
